@@ -82,6 +82,7 @@ def grasp(time_limit):
 # BUSCA LOCAL SIMPLES PRIMEIRA MELHORA
 def busca_local_simples_primeira_melhora(solucao, time_limit_BLSPM):
     time_limit_BLSPM = time.time() + time_limit_BLSPM
+    print(str(time_limit_BLSPM))
     melhorou = True
     melhor_solucao = solucao.copy()
     melhor_custo = calcular_custo(melhor_solucao)
