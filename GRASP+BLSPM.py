@@ -63,24 +63,25 @@ def heuristica_construtiva():
 
 # GRASP
 def grasp(time_limit):
+    time_limit_BLSPM = time_limit * 0.1
     time_limit = time.time() + time_limit
     solucao_incumbente = [0] * n
     while time.time() < time_limit:
         nova_solucao = heuristica_construtiva()
-        nova_solucao = busca_local_simples_primeira_melhora(nova_solucao)
+        nova_solucao = busca_local_simples_primeira_melhora(nova_solucao, time_limit_BLSPM)
         if calcular_custo(nova_solucao) > calcular_custo(solucao_incumbente):
             solucao_incumbente = nova_solucao.copy()
             print('Solucao: ' + str(solucao_incumbente)[1:-1] + ", Custo: " + str(calcular_custo(solucao_incumbente)))
     return solucao_incumbente
 
 # BUSCA LOCAL SIMPLES PRIMEIRA MELHORA
-def busca_local_simples_primeira_melhora(solucao):
+def busca_local_simples_primeira_melhora(solucao, time_limit_BLSPM):
+    time_limit_BLSPM = time.time() + time_limit_BLSPM
     melhorou = True
     melhor_solucao = solucao.copy()
     melhor_custo = calcular_custo(melhor_solucao)
-    while melhorou:
+    while time.time() < time_limit_BLSPM and melhorou:
         melhorou = False
-        print('Solucao: ' + str(melhor_solucao)[1:-1] + ", Custo: " + str(melhor_custo))
         for i in range(0, len(melhor_solucao)):
             for j in range(i + 1, len(melhor_solucao)):
                 if melhor_solucao[i] != melhor_solucao[j]:
