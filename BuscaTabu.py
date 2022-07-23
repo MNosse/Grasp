@@ -63,23 +63,21 @@ def busca_tabu(solucao, limite_tabu, time_limit):
     while time.time() < time_limit:
         iteracao += 1
         vizinhos = []
-        for i in range(0, len(solucao_base)):
-            for j in range(i + 1, len(solucao_base)):
+        for i in range(0, n):
+            for j in range(i + 1, n):
                 if solucao_base[i] != solucao_base[j]:
                     vizinho = solucao_base.copy()
                     vizinho[i] = abs(vizinho[i] - 1)
                     vizinho[j] = abs(vizinho[j] - 1)
                     elemento = [calcular_custo(vizinho), vizinho, i, j]
                     vizinhos.append(elemento)
-
         vizinhos = sorted(vizinhos, reverse=True)
-
         nova_solucao = []
         custo_solucao_base = calcular_custo(solucao_base)
 
         achou_solucao = False
         if vizinhos[0][0] > custo_solucao_incumbente:
-            nova_solucao = vizinhos[0][1]
+            nova_solucao = vizinhos[0][1].copy()
             lista_tabu[vizinhos[0][2]] = iteracao
             lista_tabu[vizinhos[0][3]] = iteracao
             achou_solucao = True
@@ -88,7 +86,7 @@ def busca_tabu(solucao, limite_tabu, time_limit):
                 if vizinhos[i][0] > custo_solucao_base:
                     if (iteracao > lista_tabu[vizinhos[i][2]] + limite_tabu and iteracao > lista_tabu[
                         vizinhos[i][3]] + limite_tabu):
-                        nova_solucao = vizinhos[i][1]
+                        nova_solucao = vizinhos[i][1].copy()
                         lista_tabu[vizinhos[i][2]] = iteracao
                         lista_tabu[vizinhos[i][3]] = iteracao
                         achou_solucao = True
@@ -103,15 +101,19 @@ def busca_tabu(solucao, limite_tabu, time_limit):
                     nova_solucao = vizinhos[i][1]
                     lista_tabu[vizinhos[i][2]] = iteracao
                     lista_tabu[vizinhos[i][3]] = iteracao
+                    achou_solucao = True
                     break
+        if not achou_solucao:
+            nova_solucao = vizinhos[0][1].copy()
+            lista_tabu[vizinhos[0][2]] = iteracao
+            lista_tabu[vizinhos[0][3]] = iteracao
 
         solucao_base = nova_solucao.copy()
-
         if calcular_custo(solucao_incumbente) < calcular_custo(solucao_base):
             solucao_incumbente = solucao_base.copy()
             custo_solucao_incumbente = calcular_custo(solucao_incumbente)
             print('Solucao: ' + str(solucao_incumbente)[1:-1] + ", Custo: " + str(
-                calcular_custo(solucao_incumbente)) + "\n")
+                custo_solucao_incumbente) + "\n")
     return solucao_incumbente
 
 
