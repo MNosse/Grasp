@@ -67,8 +67,13 @@ def grasp(time_limit):
     time_limit = time.time() + time_limit
     solucao_incumbente = [0] * n
     while time.time() < time_limit:
+        print('h')
         nova_solucao = heuristica_construtiva()
+        print('nova Solucao: ' + str(nova_solucao)[1:-1] + ", Custo: " + str(calcular_custo(nova_solucao)))
+        print('>')
         nova_solucao = busca_local_simples_primeira_melhora(nova_solucao, time_limit_BLSPM)
+        print('<')
+        print('nova Solucao: ' + str(nova_solucao)[1:-1] + ", Custo: " + str(calcular_custo(nova_solucao)))
         if calcular_custo(nova_solucao) > calcular_custo(solucao_incumbente):
             solucao_incumbente = nova_solucao.copy()
             print('Solucao: ' + str(solucao_incumbente)[1:-1] + ", Custo: " + str(calcular_custo(solucao_incumbente)))
