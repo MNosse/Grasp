@@ -86,6 +86,7 @@ def busca_local_simples_primeira_melhora(solucao, time_limit_BLSPM):
     melhor_custo = calcular_custo(melhor_solucao)
     while time.time() < time_limit_BLSPM and melhorou:
         melhorou = False
+        print('.')
         for i in range(0, len(melhor_solucao)):
             for j in range(i + 1, len(melhor_solucao)):
                 if melhor_solucao[i] != melhor_solucao[j]:
